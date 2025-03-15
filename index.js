@@ -2,6 +2,8 @@ const express = require('express');
 var cors = require('cors')
 const mongoose = require('mongoose');
 const app = express();
+app.use(cors());
+app.use(express.json());
 const port = 3000;
 const uri = 'mongodb+srv://rrkrish123:rrkrish123@graphifycluster.irmpn.mongodb.net/?retryWrites=true&w=majority&appName=Graphifycluster';
 
@@ -26,7 +28,6 @@ mongoose
       const invoices = await myModel.find();
       res.json(invoices);
     });
-    app.use(cors());
 
     app.post('/api/invoices', async (req, res) => {
         const {invoice_number, recipient_name, phone_number, address, totalamount, advance_paid, balance_amount } = req.body; 
