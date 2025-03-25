@@ -52,10 +52,10 @@ mongoose
 
       app.post("/invoices/delete-invoice", async(req, res) => {
         try {
-          const { id } = req.body;
-          let invoice = await myModel.findByIdAndDelete(id);
+          const { invoice_number } = req.body;
+          await myModel.deleteOne({ invoice_number: invoice_number });
+          res.json({ message: "Invoice deleted successfully"});
           
-          res.json(invoice);
         } catch (error) {
           console.error("Error deleting invoice:", error);
           res.status(500).json({ error: "Failed to delete invoice" });
