@@ -49,6 +49,21 @@ mongoose
           res.status(500).json({ error: "Failed to save invoice" });
         }
       });
+
+      app.post("/invoices/delete-invoice", async(req, res) => {
+        try {
+          const { invoice_number } = req.body;
+          await myModel.deleteOne({ invoice_number: invoice_number });
+          res.json({ message: "Invoice deleted successfully"});
+          
+        } catch (error) {
+          console.error("Error deleting invoice:", error);
+          res.status(500).json({ error: "Failed to delete invoice" });
+          
+        }
+      })
+
+
 app.listen(port, '0.0.0.0', () => {
   console.log(`Example app listening at http://0.0.0.0:${port}`);
 });
