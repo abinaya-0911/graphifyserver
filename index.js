@@ -17,6 +17,8 @@ mongoose
     recipient_name: String,
     phone_number: String,
     address: String,
+    codelist: String,
+    adlist: String,
     totalamount: String,
     advance_paid: String,
     balance_amount: String,
@@ -30,7 +32,7 @@ mongoose
     });
 
     app.post('/api/invoices', async (req, res) => {
-        const {invoice_number, recipient_name, phone_number, address, totalamount, advance_paid, balance_amount } = req.body; 
+        const {invoice_number, recipient_name, phone_number, address,codelist,adlist, totalamount, advance_paid, balance_amount } = req.body; 
 
         try {
             const invoice = new myModel({
@@ -38,6 +40,8 @@ mongoose
                 recipient_name: recipient_name,
                 phone_number: phone_number,
                 address: address,
+                codelist: codelist,
+                adlist: adlist,
                 totalamount: totalamount,
                 advance_paid: advance_paid,
                 balance_amount: balance_amount,
