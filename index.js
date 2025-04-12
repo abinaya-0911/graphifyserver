@@ -65,7 +65,27 @@ mongoose
           res.status(500).json({ error: "Failed to delete invoice" });
           
         }
-      })
+      });
+
+      app.post("/invoices/update-invoice", async(req, res) => {
+        try {
+          const { invoice_number, recipient_name, phone_number, address,codelist,adlist, totalamount, advance_paid, balance_amount } = req.body; 
+          await myModel.updateOne({ invoice_number: invoice_number }, {
+            recipient_name: recipient_name,
+            phone_number: phone_number,
+            address: address,
+            codelist: codelist,
+            adlist: adlist,
+            totalamount: totalamount,
+            advance_paid: advance_paid,
+            balance_amount: balance_amount,
+          });
+          res.json({ message: "Invoice updated successfully"});
+        } catch (error) {
+          console.error("Error updating invoice:", error);
+          res.status(500).json({ error: "Failed to update invoice" });
+        }
+      });
 
 
 app.listen(port, '0.0.0.0', () => {
