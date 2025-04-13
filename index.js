@@ -71,9 +71,9 @@ mongoose
       try {
         const { invoice_number, balance_amount } = req.body;
     
-        if (!invoice_number || balance_amount === undefined) {
-          return res.status(400).json({ error: "Invoice number and balance amount are required." });
-        }
+        // if (!invoice_number || balance_amount === undefined) {
+        //   return res.status(400).json({ error: "Invoice number and balance amount are required." });
+        // }
     
         const result = await myModel.updateOne(
           { invoice_number: invoice_number },
