@@ -67,26 +67,30 @@ mongoose
         }
       });
 
-      app.post("/invoices/update-invoice", async(req, res) => {
-        try {
-          const { invoice_number, recipient_name, phone_number, address,codelist,adlist, totalamount, advance_paid, balance_amount } = req.body; 
-          await myModel.updateOne({ invoice_number: invoice_number }, {
-            recipient_name: recipient_name,
-            phone_number: phone_number,
-            address: address,
-            codelist: codelist,
-            adlist: adlist,
-            totalamount: totalamount,
-            advance_paid: advance_paid,
-            balance_amount: balance_amount,
-          });
-          res.json({ message: "Invoice updated successfully"});
-        } catch (error) {
-          console.error("Error updating invoice:", error);
-          res.status(500).json({ error: "Failed to update invoice" });
+    app.post("/invoices/update-invoice", async (req, res) => {
+      try {
+        const { invoice_number, balance_amount } = req.body;
+    
+        if (!invoice_number || balance_amount === undefined) {
+          return res.status(400).json({ error: "Invoice number and balance amount are required." });
         }
-      });
-
+    
+        const result = await myModel.updateOne(
+          { invoice_number: invoice_number },
+          { $set: { balance_amount: balance_amount } }
+        );
+    
+        if (result.modifiedCount > 0) {
+          res.json({ message: "Balance updated successfully" });
+        } else {
+          res.status(404).json({ error: "Invoice not found" });
+        }
+      } catch (error) {
+        console.error("Error updating invoice balance:", error);
+        res.status(500).json({ error: "Failed to update invoice balance" });
+      }
+    });
+    
 
 app.listen(port, '0.0.0.0', () => {
   console.log(`Example app listening at http://0.0.0.0:${port}`);
